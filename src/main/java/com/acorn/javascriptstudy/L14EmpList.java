@@ -90,6 +90,6 @@ public class L14EmpList extends HttpServlet {
 
         out.println(empListStr);
 
-        // java 문서가 바뀌면 class로 컴파일하고 톰캣에 배포된 webapp로 바꿔야한다. (배포!)
+        // java 문서가 바뀌면 class로 컴파일하고 톰캣에 배포된 webapp로 바꿔야한다.(배포!)
     }
 }
