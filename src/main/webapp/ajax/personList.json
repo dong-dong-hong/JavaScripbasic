@@ -1,0 +1,21 @@
+[
+  {
+  "name" :  "동홍",
+  "birth" : 1998,
+  "job" : "학생",
+  "married" : false
+},
+
+{
+  "name" :  "동일",
+  "birth" : 1991,
+  "job" : "학생",
+  "married" : false
+},
+  {
+    "name" :  "재연",
+    "birth" : 1999,
+    "job" : "학생",
+    "married" : false
+  }
+]

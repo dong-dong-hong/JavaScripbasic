@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>document 란?</title>
+</head>
+<body>
+<h1>document와 window</h1>
+<p>자바스크립트를 브라우저에서 실행하면 브라우저과 관련된 정보를 window에 저장하고 전역 설정한다.
+    브라우자에서 출력하는 html 문서를 객체로 만들어서 document에 저장한다.
+</p>
+<ul>
+    <li>window : BOM Browser Object Model 브라우저정보와 전역</li>
+    <li>window.document : DOM Document Object Model html문서를 객체로 제공</li>
+    <li>DOM Tree : 문서에 존재하는 태그들을 중첩(자식)관계로 그래프를 그린 것</li>
+    <li>DOM Tree root : 모든 태그의 조상 html or body 태그</li>
+    <li>Dom Tree 자식 : 해당 태그 바로 하위 중첩 태그 node>childNode</li>
+    <li>DOM Tree 자손 : 해당 태그의 모든 하위 태그 node childNode</li>
+    <li>DOM Tree 형제 : 해당 태그와 인접한 태그들 node~sibling</li>
+    <li>DOM Tree 부모 : 해당 태그를 중첩하는 태그</li>
+    <li>DOM Tree 조상 : 해당 태그를 중첩하는 태그의 부모 or 부모의 부모 or ....</li>
+    <li>css 선택자 암기!</li>
+</ul>
+<h2>node 객체에 필드로 존재하는 부모 자식 관계</h2>
+<p>textNode+elementNode를 찾는 필드</p>
+<ul id="domTraveling1">
+    <li>node.parentNode : 부모 노드</li>
+    <li>node.childNodes : 자식 노드들 []</li>
+    <li>node.firstChild : 첫번째 자식</li>
+    <li>node.lastChild : 마지막 자식</li>
+    <li>node.previousSibling : 인접한 이전 형제</li>
+    <li>node.nextSibling : 인접한 다음 형제</li>
+</ul>
+<script>
+    const domTraveling1 = document.getElementById("domTraveling1");
+    console.log("자신노드", domTraveling1);
+    console.log("부모노드", domTraveling1.parentNode);
+    console.log("자식노드", domTraveling1.childNodes);
+    console.log("첫번째 자식노드", domTraveling1.firstChild);
+    console.log("마지막 자식노드", domTraveling1.lastChild);
+    console.log("앞쪽 형제노드", domTraveling1.previousSibling);
+    console.log("뒤쪽 형제노드", domTraveling1.nextSibling);
+</script>
+// script 태그도 노드 취급당하고 객체 생성대신 실행을 한다.
+// ul 객체가 실행되고 script가 실행된다.
+<h2>node 객체에 필드로 존재하는 부모 자식 관계2</h2>
+<p>elementNode를 찾는 필드</p>
+<ul id="test">
+    <li>node.parentElement : 부모 노드</li>
+    <li>node.children : 자식 노드들 []</li>
+    <li>node.firstElementChild : 첫번째 자식</li>
+    <li>node.lastElementChild : 마지막 자식</li>
+    <li>node.previousElementSibling : 인접한 이전 형제</li>
+    <li>node.nextElementSibling : 인접한 다음 형제</li>
+</ul>
+<script> // script 태그를 요소 노드 취급한다.
+const test = document.getElementById("test"); // 똑같은 id가 선언된 여러 요소 중 처음 발견된 node 한개만 반환
+// console.log(testtest); // 오류
+console.log("자신 노드", test);
+console.log("부모 요소노드", test.parentElement); // 부모는 절대 textNode일 수 없다.
+console.log("자식 요소노드", test.childNodes);
+console.log("첫번째 자식요소노드", test.firstElementChild);
+console.log("마지막 자식요소노드", test.lastElementChild);
+console.log("앞쪽 형제요소노드", test.previousElementSibling);
+console.log("뒤쪽 형제요소노드", test.nextElementSibling);
+</script>
+<h2>document 탐색하는 함수들</h2>
+<p>배열로 찾아지는 node는 무조건 반복문으로 제어해야한다.
+    [node,node...].style.color = "red:; (x)
+    node.style.color = "blue"; (o)
+    jquery :  $(" .blue").style("color","red");  이때 style()는 반복문으로 모든 노드에 적용 [li,li,li].style.color = "red"
+    window js : 자바스크립트가 브라우저에서 실행될 때 (window,document 객체 반환)
+    nodejs : 자바스크립트가 서버에서 java처럼 실행되는 언어 (http : 서버객체)
+    spring : 자바의 톰캣 서버를 제어하는 프레임워크 웹앱
+    express.js , next.js(),react.js() : 자바스크립트의 node.js 서버를 제어하는 프레임워크 웹앱
+</p>
+<ul id="test2">
+    <li class="blue">document(node).getElementById("id") : id로 노드를 검색 (return node)</li>
+    <li class="red">document(node).getElementsByName("tag") : 요소이름으로 노드들을 검색 (return HTMLCollection)</li>
+    <li>document(node).getElementsClassName("class") : 클래스이름으로 노드들을 검색 (return HTMLCollection)</li>
+    <li class="red">document.getElementsByName("name") name으로 노드들을 검색 (return HTMLCollection)</li>
+    <li>document(node).querySelector(css) : css 선택자로 노드를 검색 (return node)</li>
+    <li>document(node).querySelectorAll(css) : css 선택자로 노드들을 검색 (return node)</li>
+    <li>node.closest(css) : 해당 노드의 조상 중에 해당 선택자와 동일한 노드가 있으면 반환</li>
+    <li class="red">document.matches(css) : 해당 선택자의 노드가 있는지 검색 (return boolean)</li>
+    <li class="blue">node.contains(css) : 해당 선택자의 노드가 조상인지 확인 (return boolean)</li>
+</ul>
+<script>
+    // test2 요소에 text-shadow를 적용해 보세요.
+    // querySeletor는 querySelectorAll처럼 css로 복수의 node를 검색해서 맨 위에 있는 것을 반환
+    // getElementById는 id선택자를 1개 찾는다(복수를 우선 찾는 querySelector 보다 성능이 좋다.)
+    // #test2>.red color : red
+    // #test2>.blue color : blue
+    const testtest = document.getElementById("test2");
+    // const testtest = document.querySelector("#test2");
+    // body > h2 (맨위에 있는 것)
+    testtest.style.textShadow = "1px 1px 1.5px rgba(0,0,0,.3)";
+    // html을 보수하다보면 중첩요소가 더 많은 중첩을 하게 될 가능성이 높다. 때문에 자식 선택자 보다 자손 선택자를 선호(성능하락)
+    // 유지보수 : 선택자 추상적, 성능 : 선택자를 구체화
+    const test2BlueLis = document.querySelectorAll("#test2 .blue"); // querySelector ~ NodeList
+    test2BlueLis.forEach((li) => {
+        li.style.color = "rgb(80,80,250)";
+    });
+    const test2RedList = test2.getElementsByClassName("red"); // ElemenetsBy ~ HTMLCollection
+    console.log(test2RedList);
+    // HTMLCollection은 무조건 for of(Iterator) 사용
+    for(let li of test2RedList) {
+        li.style.color = "rgb(200,80,80)";
+    }
+    // 배열에서 Array 필드를 사용하고 싶을 때 배열을 Array 파싱하는 함수
+    Array.from(test2RedList).forEach((li) => {
+       li.style.textDecoration = "underline";
+    });
+
+    const blueLis = document.getElementsByClassName("blue"); // HTMLCollection (forEach 없음)
+   // for(let i=0; i <testtest2.length; i++) { let li  = blueLis[i];}
+   //  for(let li of testtest2){ let li  = blueLis[i];} // 배열에서는 사용 x Object에서만 사용
+    // key는 필드를 문자열이나 수로 참조하는 것
+    // index key 0,1,2,3,4
+    // Object key : person.name(name 필드), person["name"] ("name" key)
+
+    for(let i of blueLis) {
+        let li  = blueLis[i];
+    } // 배열에서 많이 사용됨
+    // HTMLCollection에서 Array.forEach를 사용하고 싶으면 이렇게
+    const blueLisArr = Array.from(blueLis); // 배열 구조인 자료를 Array 타입으로 변형
+    blueLisArr.forEach((li) => { // 개발자가 선호하는 반복문
+
+    });
+     const blueListArr2 = document.querySelectorAll(".red"); // NodeList(forEach, map(x))
+    blueListArr2.forEach((li) => {
+
+    });
+</script>
+<h2>미리 지정되는 node 변수들</h2>
+<ul id="test3">
+    <li>id를 정의하면 id와 동일한 변수가 해당 노드를 참조(getElementById 함수를 권장)</li>
+    <ul>
+        <li>id는 document 유일한 선택자지만 여러개고 선언해도 오류가 발생하지 않는다(여러개를 선언가능)</li>
+        <li>만약 id 여러개일 때 미리 생성된 id 변수를 쓰면 배열이 참조된다.(쓰지 않는 이유!)</li>
+        <li>없는 id를 id 변수로 참조하면 선언되지 않았다는 오류가 발생!</li>
+    </ul>
+    <li>form에 name을 정의하면 name과 동일한 변수가 해당 form 노드를 참조(document.forms[name] 권장)</li>
+    <li>form에 중첩된 input 요소에 name을 작성하면 form 노드의 자식으로 참조 가능</li>
+    <li>form에 중첩된 여러 input 요소에 같은 name을 작성하면 RadioNodeList로 반환
+        (만약 type이 radio면 checked된 value가 반환된다.)
+    </li>
+    <li>document.body : 무조건 1개만 존재하는 모든 요소의 부모 body</li>
+</ul>
+<h2>table node에 행과 셀을 검색</h2>
+<ul>
+    <li>tableNode.row[수] : 해당 테이블의 몇 번 째 tr</li>
+    <li>tableNode.row[수].cell[수] : 해당 테이블의 몇 번 째 tr에 몇번 째 td</li>
+</ul>
+
+<table id="userTable">
+    <tr>
+        <td>경민</td>
+        <td>38</td>
+        <td>강사</td>
+    </tr>
+    <tr>
+        <td>우상</td>
+        <td>28</td>
+        <td>학생</td>
+    </tr>
+    <tr>
+        <td>희선</td>
+        <td>21</td>
+        <td>학생</td>
+    </tr>
+</table>
+<script>
+    userTable.rows[2].style.background = "red";
+    userTable.rows[1].cells[0].style.border = "1px solid purple";
+</script>
+
+
+<form name="loginForm" id="loginFormId">
+    <div>
+        id : <input name="id" value="acornCkm">
+    </div>
+    <div>
+        로그인 유지 :
+        <input type="radio" name="state" value="1" checked>
+        유지 x :
+        <input type="radio" name="state" value="2" checked>
+    </div>
+</form>
+<script>
+    console.log(loginForm.id);
+    console.log(loginFormId);
+    //test.children;
+    console.log(test3);
+    const test2 = document.getElementById("test2");
+    const test2Li = test2.getElementsByTagName("li");
+    console.log(test2Li);
+</script>
+<h2>선택자 연습 문제</h2>
+<style>
+    /*Internal style 보통 header에 작성하는 수업이니까 바로 앞에서 작성*/
+    /*boxContainer 안에 .box들을 inline-block에*/
+    /*배경색이 ligthtgray로 만드세요*/
+    #boxContainer > .box {
+        /*height: auto; 블록 내부의 컨텐츠의 높이만큼 블럭의 높이를 지정 */
+        width: 200px;
+        height: 200px;
+        display: inline-block;
+        background-color: lightgray;
+        text-align: center;
+        line-height: 200px;
+    }
+</style>
+
+<div id="boxContainer">
+    <p class="box">
+        <span>저는</span>
+        <strong>1박스</strong>
+        <span>입니다!</span>
+    </p>
+    <p class="box">
+        <span>저는</span>
+        <strong>2박스</strong>
+        <span>입니다!</span>
+    </p>
+    <p class="box">
+        <span>저는</span>
+        <strong>3박스</strong>
+        <span>입니다!</span>
+    </p>
+    <p class="box">
+        <span>저는</span>
+        <strong>4박스</strong>
+        <span>입니다!</span>
+    </p>
+    <p class="box">
+        <span>저는</span>
+        <strong>5박스</strong>
+        <span>입니다!</span>
+    </p>
+</div>
+
+<script>
+    //1. .box를 찾으세요!
+    //2. .box에 마우스를 올리면 border= "1px solid red"를 적용하세요
+    //3. .box에 마우스가 떠나면 border= "none"으로 하세요.
+    //.box를 누르면 (onclick) 모든 형제의 display none으로 만드세요
+    // const boxs = boxContainer.children;
+    const boxContainer = document.getElementById("boxContainer")
+    const boxs = boxContainer.getElementsByClassName("box");
+    // console.log(boxContainer.children);
+    // console.log(boxContainer.getElementsByClassName("box"));
+    // console.log(boxContainer.querySelectorAll(".box"));
+    console.log(document.querySelectorAll("#boxContainer>.box"));
+
+    console.log(boxs);
+
+    Array.from(boxs).forEach((box) => {
+        box.onmouseover = (e) => {
+            e.target.style.border = "1px solid red";
+        }
+    });
+    Array.from(boxs).forEach((box) => {
+        box.onmouseleave = (e) => {
+            e.target.style.border = "none";
+        }
+    });
+</script>
+<h2>선택자 문제2</h2>
+<table id="ex2Table" style="width: 100%">
+    <tr>
+        <td>1</td>
+        <td>경민</td>
+        <td>38</td>
+        <td>강사</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>윤식</td>
+        <td>24</td>
+        <td>학생</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>은주</td>
+        <td>25</td>
+        <td>학생</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>동홍</td>
+        <td>26</td>
+        <td>학생</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>동일</td>
+        <td>35</td>
+        <td>학생</td>
+    </tr>
+</table>
+<script>
+    //ex2Table의 모든 td 를 선택하세요
+    //모든 td에 마우스를 올리면(onmouseover) border를 1px solid 로 지정하세요
+    //이때 td가 속한 tr의 배경색을 lightgray로 바꾸세요
+    //마우스가 td 에서 빠져 나가면 td에 정의된 board와 background를 제거하세요
+</script>
+
+</body>
+</html>

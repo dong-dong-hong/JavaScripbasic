@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>캡슐화 getter setter</title>
+</head>
+<body>
+<h1>객체지향 문법과 캡슐화와 getter setter(디자인 패턴)</h1>
+<ul>
+    <li>Bean(완두콩) : 필드를 get set 캡슐화하는 모든 타입</li>
+    <li>VO : Bean인데 유효성 검사나 equals가 구현된 타입</li>
+    <li>DTO : Bean 데이터 전송에 사용하는 것</li>
+    <li>POJO : Plain Old Java Object의 줄임말 포조는 getter setter 디자인 패턴을
+        자바에서 처음 시작해서 부르는 말</li>
+</ul>
+<pre>
+      // Data Tranfer Object : 데이터 전송 시 보관용 캡슐화
+    class PersonDto{
+        private String name; // 은닉
+        private int age;
+        private boolean married;
+        public setName(String name) {
+          this.name = name;
+        }
+      public String getName() {
+        return this.name;
+      }
+      public boolean isMarried() {
+        return this.married;
+      }
+    }
+      //VO Variable Object :  data를 저장하고 관리하는 용도 (잘 사용하지 않는다.)
+      //VO는 유효성 검사를 할 수 있고 두 객체를 비교할 수 있도록 equals를 구현
+      class PersonVo{
+            private int age;
+            public void setAge(int age) {
+                if(age > 0 && age < 140) {
+                    this.age = age;
+                }
+                this.age = 0;
+            }
+            public PersonVo parsingPersonVo(PersonDto dto){
+                //Dto를 기반으로 하는 Vo가 있을 때 유효성 검사를 위해 형변환하는 함수
+            }
+            public boolean equals(Object o) {
+                // 두 객체가 같은지 비교연산 하는 Object.equals()
+            }
+            // dto와 vo 구분이 없는 회사도 있다.(엄청 유명한 책에서 두개를 같은 거라 이야기해서)
+      }
+  </pre>
+<h2>자바스크리트의 캡슐화와 private protected (default는 없다 패키지 개념이 없어서)</h2>
+<pre>
+    class Person{
+        #password; // private : 클래스 내부에서만 접근 가능한 필드
+        name; // public : 누구든 접근이 가능한 필드
+        _child; // protected : 클래스 내부와 상속 관계에서 접근 가능한 필드
+    }
+</pre>
+
+<h2>자바스크립트 class의 get set 문법</h2>
+<p>POJO(getter setter) 디자인 패턴이 좋아서 문법으로 추가함</p>
+<pre>
+    class PersonDto{
+    #name;#age;
+    get name(){
+        return this.#name;
+      }
+     set name(name) {
+        this.#name = name;
+      }
+    }
+    const p = new PersonDto();
+    p.name = "희선"; // set name("희선")
+    Console.log(p.name); // get name()
+</pre>
+<script>
+    class PersonDto{
+        #name;#age; // Js의 private은 이름에 #을 추가해야한다.
+        construcotr(name,age){
+            this.#name = name;
+            this.#age = age;
+        }
+        get name(){ // 선언은 함수인데 함수가 아니다.
+            return this.#name;
+        }
+        set name(name) { // 선언은 함수인데 함수가 아니다
+            this.#name = name;
+        }
+    }
+    const p = new PersonDto("은정",25);
+    console.log(p);
+    // console.log(p.#name);
+    console.log(p.name); // p.getName()
+    p.name = "은주";
+    // p.#name ="은주";
+    console.log(p);
+</script>
+</body>
+</html>

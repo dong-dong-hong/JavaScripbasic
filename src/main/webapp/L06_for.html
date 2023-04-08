@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>자료형과 반복문</title>
+</head>
+<body>
+<h1>자료형을 반복문으로 검사해 보자</h1>
+<h2>Array</h2>
+<h2>Object</h2>
+<h3>문제1 다음 리스트의 모든 값을 더하세요</h3>
+<ul id="ex1">
+    <li>1</li>
+    <li>4</li>
+    <li>9</li>
+    <li>16</li>
+    <li>25</li>
+    <li>36</li>
+    <li>49</li>
+</ul>
+<p id="ex1Result"></p>
+<script>
+    //document
+    // dom traveling의 결과로 단수가 나오는 것과 복수가 나오는 것 암기
+    // 단수 : id, formName(==forms["forName"]) parentNode(부모노드)
+    // 단수함수 : getElementById("id"), querySelector("cssSelector") '.', '#', '>', ' ', '[]'
+    // 복수 : children(자식노드) childNodes(텍스트노드+자식노드) HTMLCollection 배열이 반환
+    // 복수함수 : getElementsByTagName("tag"), getElementsByClassName("Class") => HTMLCollection
+    // ,querySelectorAll("cssSelector") => NodeList(내부반복문을 포함하는 배열 타입)
+    // parentNode,children,childNodes : 해당 노드에 포함된 필드 (새롭게 탐색하지 않는다.)
+
+    // js가 어려운 이유
+    // id 선택자는 노드 개체를 바로 선택할 수 있다.
+    // console.log(ex1.childNodes);
+    console.log(ex1.children); // HTMLCollection 배열인데 Array보다 필드가 적은 배열
+    console.log(ex1.getElementsByTagName("li"));
+    console.log([1,2,3,4,5]);
+    // document.getElementById("ex1")
+    // console.log(ex1.children[5].innerText)
+    const ex1Lis = ex1.children; // [li,li,li,li,li,li]
+    sum = 0;
+    for (let li of ex1Lis) { //해당 배열이 Iterable해야 사용가능
+        sum += Number(li.innerText);
+
+    }
+    console.log(sum)
+    // innerHTML : 해당 노드의 자식으로 문자열을 노드 개체로 만들어 추가하는 필드
+    // innerText : 해당 노드의 자식으로 문자열을 텍스트노드로 만들어 추가하는 필드
+    ex1Result.innerHTML = `위의 모든 값을 더한 결과 : <b>${sum}</b>`;
+
+
+    // Number(문자열) parseInt(문자열) parseFloat(문자열)
+    // li 써진 모든 text를 수로 더한 결과를 출력하세요
+    // const ex1Node  = document.getElementById("ex1");
+    // console.log(ex1Node);
+</script>
+
+<h3 id="ex2H3" onmouseenter="this.style.color='blue'">
+    ex2 li에 작성된 문자열을 li의 color로 변경하세요
+    (마우스포인터가 li에 들어오면, 나가면 다시 블랙으로 변경)
+</h3>
+<ul id="ex2" style="color: red">
+    <li>red</li>
+    <li>lightblue</li>
+    <li>rgb(100,200,150)</li>
+    <li>yellow</li>
+    <li>rgba(0,0,0,.5)</li>
+    <li>#00FF11</li>
+    <li>#0F1</li>
+</ul>
+<script>
+    // css CascadingStyleSheet : 브라우저에 노드를 그래픽으로 나타내는 명세서
+    // 1 Cascading : 부모 요소의 스타일을 자식이 따르는 것
+    // 2 Cascading : 선택자의 우선순위가 존재한다. tag 1 , class . 10, id # 100 inline 1000, !improtant
+    // 3 Cascading : Exteranal Style (다운) > Internal Style(내부 style) > Inline Style (요소에 작성)
+    // Inline Style : 요소에 직접 쓰거나 자바스크립트로 요소를 찾아서 스타일 주면 인라인에 적용된다.(js로 요소를 동적으로 만들기 위해 존재)
+    //브라우저가 HTML을 노드 개체로 만들기 전에 꼭 Dom Tree를 생성해서 css 명세서(css 선택자의 dom traveling)를 이용해 그래픽을 그린다.
+
+    // 스타일은 노드 개체의 속성이다.
+    //ex2H3.style.color="purple";
+
+    // 노드 개체의 이벤트 속성 (GUI가 동작하기 위해 최소의 장치 MouseEvent)
+    // 브라우저는 브라우저에 발생하는 모든 것을 이벤트로 정의한다.(EventListener가 너무 훌륭하게 동작해서 모든 이벤트를 처리함)
+    // EventListener : 이벤트가 발생하는 것을 무한히 대기(무한반복문), 멀티스레드로 처리하는 객체 (비동기)
+    // EventListener는 멀티스레드로 동작하지만 물리적으로는 1 thread를 멀티스레드처럼 효율적으로 사용하는 상태이다.
+    // 이런 상태의 스레드를 경량 스레드라 부른다. node.js가 EventLisner 경량스레드를 사용하기 위해 등장 했다.
+
+    ex2H3.onclick = function (e) {// 정의 or 재정의
+        // ex2H3.style.color="purple";
+        // this.style.color = "purple"; // this : 객체 필드 접근자.(ex2H3 노드 개체)
+        console.log(e) // 이벤트에 대한 정보
+        console.log(e.target) // 이벤트가 발생한 대상
+        e.target.style.color = 'purple';
+    }
+    // html>body>div>div>div>div>div>div>div>div>ul {color : red} 12
+    // .colorUl {color: blue !important;} 10
+    // ul.colorUl{color: green; } 11
+    // <ul class="colorUl" style="color: purple"></ul>
+
+    const ex2Lis = ex2.children;
+    console.log(ex2Lis);
+    for (let i = 0; i < ex2Lis.length; i++) {
+        let li = ex2Lis[i];
+        // li.style.color = (li.innerText);
+        li.onmouseenter = function (e) {
+            this.style.color = this.innerText;
+        }
+        li.onmouseleave = function (e) {
+            this.style.color = "#000";
+        }
+    }
+    // 이벤트 필드는 함수고 call back(실행할 때 호출된다.)를 재정의 해야한다. (재정의 한 함수가 이벤트가 발생할 때마다 호출된다.)
+    // 객체 필드(속성,프로퍼티)
+    // 노드 개체 필드 (css,event)
+</script>
+<h3>문제3 다음 리스트에서 수를 제외한 모든 값을 더하세요 (흰트 NaN)</h3>
+<ul id="ex3">
+    <li>18.33em</li>
+    <li>1</li>
+    <li>4.3</li>
+    <li>9.00</li>
+    <li>십오</li>
+    <li>16</li>
+    <li>25.12</li>
+    <li>36</li>
+    <li>null</li>
+    <li>49</li>
+</ul>
+<script>
+    const ex3Lis = ex3.children;
+    sum = 0;
+    for (let li of ex3Lis) {
+        // console.log(li.innerText , parseFloat(li.innerText));
+        let num = parseFloat(li.innerText);
+        // if(num != NaN) {
+        if (!Number.isNaN(num)) { // 158.75
+            sum += num;
+        }
+        // if(!isNaN(li.innerText)) { // 140.4200000000002
+        //     sum+= parseFloat(li.innerText);
+        // }
+    }
+    console.log(sum)
+
+</script>
+<script>
+    const arr = [10, -20, 30, 55, 200, -250]; // 모든 값을 더하세요
+    // for(int i=0; i < arr.length) { //  선언문; 조건식;증감식;
+    //  for(int a:arr){  // Iterator 반복문, 향상된 for문
+    //   sum+= a;
+    // }
+    //
+    // }
+
+    /*
+      int i = 0;
+      while(i<arr.length) {
+          i++;
+      }
+      Iterator i = arr;
+      while(i.next) { // Iterable 객체
+        i.nextValue();
+      }
+
+      while(true) {} // application의 무한 반복문
+     */
+    let sum = 0;
+    for (let i = 0; i < arr.length; i++) {
+        sum += arr[i];
+    }
+
+    console.log("for로 arr의 모든자료를 더한값 : " + sum)
+    sum = 0;
+    for (let a of arr) {
+        sum += a
+    }
+
+    console.log("for of로 arr의 모든자료를 더한값 : " + sum)
+    // js에 밖에 없는 것
+    sum = 0;
+    for (let i in arr) { // in은 key를 반환하는데 Array일 때는 index를 반환
+        sum += arr[i];
+    }
+    console.log("for in 으로 arr의 모든자료를 더한값 : " + sum)
+</script>
+</body>
+</html>
