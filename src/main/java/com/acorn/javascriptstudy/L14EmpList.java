@@ -12,7 +12,6 @@ import java.io.PrintWriter;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
 // 톰캣에서 동적페이지(서블릿)를 생성하기 위한 2가지 약속
 // 서블릿으로 정의할 타입을 HttpServlet으로 정의
 // 서블릿을 리소스로 등록하기 위해 DD(web.xml)에 주소를 등록 (@WebServlet)
